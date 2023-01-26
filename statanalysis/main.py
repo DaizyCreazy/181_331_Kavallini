@@ -1,5 +1,10 @@
-import sys
+#был удален импорт - таким образом, было исправлено предупреждение W0611 – указание на те импорты, которые не используются.
+#import sys
+#все импорты были сгруппированы вверху файла - исправлена ошибка E402 - не все импорты находятся в верхней части модуля
 import random
+import math
+from textwrap import wrap # для шифра Плейфера и Магмы
+
 
 alphabet = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я']
 S_blocks = [{'0': 'c', '1': '4', '2': '6', '3': '2', '4': 'a', '5': '5', '6': 'b', '7': '9', '8': 'e', '9': '8', 'a': 'd', 'b': '7', 'c': '0', 'd': '3', 'e': 'f', 'f': '1'},
@@ -11,8 +16,8 @@ S_blocks = [{'0': 'c', '1': '4', '2': '6', '3': '2', '4': 'a', '5': '5', '6': 'b
             {'0': '8', '1': 'e', '2': '2', '3': '5', '4': '6', '5': '9', '6': '1', '7': 'c', '8': 'f', '9': '4', 'a': 'b', 'b': '0', 'c': 'd', 'd': 'a', 'e': '3', 'f': '7'},
             {'0': '1', '1': '7', '2': 'e', '3': 'd', '4': '0', '5': '5', '6': '8', '7': '3', '8': '4', '9': 'f', 'a': 'a', 'b': '6', 'c': '9', 'd': 'c', 'e': 'b', 'f': '2'}]
 alphabet_magma = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"]
-import math
-from textwrap import wrap # для шифра Плейфера и Магмы
+#между всеми функциями было проставлено две пустых строки для решения ошибки E302 – ожидалось наличие двух пустых строк после функций, но была найдена только одна
+
 
 def create_vertical_matrix(vertical_key, original):
     column_vertical = len(vertical_key)
@@ -32,6 +37,7 @@ def create_vertical_matrix(vertical_key, original):
 
     return vertical_matrix, column_vertical, row_vertical
 
+
 def find_index_vertical(key):
     location_key_word = list() # исправленный порядок следования букв в ключе со значениями = местоположению в исходном ключ-слове
     array_for_minimums = list(key) # массив, нужный для удаления использованных значений
@@ -50,6 +56,7 @@ def find_index_vertical(key):
 
     print(number_index)
     return location_key_word
+
 
 def encrypt_or_decrypt_VERTICAL(key, vertical_matrix, column_vertical, row_vertical, it_is_encrypt): # Вертикальная перестановка
 
@@ -75,10 +82,12 @@ def encrypt_or_decrypt_VERTICAL(key, vertical_matrix, column_vertical, row_verti
                 new_text += new_matrix[i][j]
     return new_text
 
+
 def get_key(d, value):
     for k, v in d.items():
         if v == value:
             return k
+
 
 def change(blocks):  # меняем 16-ный код на двоичный в таблице
     for block in range(len(blocks)):
@@ -87,6 +96,7 @@ def change(blocks):  # меняем 16-ный код на двоичный в т
             blocks[block][from_16_to_2(a)] = blocks[block].pop(a)
     return blocks
 
+
 def from_16_to_2(letter):  # переводим 16-ный символ в двоичный
     symbol = int(letter, 16)
     new_letter = bin(symbol)[2:]
@@ -94,13 +104,16 @@ def from_16_to_2(letter):  # переводим 16-ный символ в дво
         new_letter = "0" + new_letter
     return new_letter
 
+
 def text_to_bits(text, encoding='utf-8', errors='surrogatepass'):  # текст в биты
     bits = bin(int.from_bytes(text.encode(encoding, errors), 'big'))[2:]
     return bits.zfill(8 * ((len(bits) + 7) // 8))
 
+
 def bits_to_text(bits, encoding='utf-8', errors='surrogatepass'):  # биты в текст
     n = int(bits, 2)
     return n.to_bytes((n.bit_length() + 7) // 8, 'big').decode(encoding, errors) or '\0'
+
 
 def encrypt_or_decrypt_MAGMA(text, it_is_encrypt):  # шифр Магма
     list_for_blocks = [text[x:x + 32] for x in range(0, len(text), 32)]
@@ -164,3 +177,4 @@ for j in range(len(shifr_vertical_matrix[0])):  # считываем буквы 
 decryption_text = encrypt_or_decrypt_VERTICAL(location_key_word, shifr_vertical_matrix, column_vertical, row_vertical, False)
 print("Расшифрованное сообщение вертикальной перестановкой:")
 print(decryption_text)
+#в конце файла добавлена пустая строка для исправления предупреждения W292 – нет новый строки в конце файла
