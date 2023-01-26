@@ -1,10 +1,10 @@
 # 181_331_Kavallini
 
-##Статический анализ
-###Происхождение и назначение кода
+## Статический анализ
+### Происхождение и назначение кода
 Представленный кодд был реализован в рамках дисциплины «Программирование криптографических алгоритмов». Он производит шифрование и дешифрование введенного пользователем текста с помощью **Шифра вертикальной перестановки с ключ-словом**
 
-###Результат статического анализа
+### Результат статического анализа
 В качестве статического анализатора был выбран: **PyLama**
 Вывод анализатора производится в формате: *имя_файла:строка:символ_ошибки описание_ошибки [каким_инструментом_была_найдена_ошибка]*
 ```
@@ -57,7 +57,7 @@ main.py:166:23 W292 no newline at end of file [pycodestyle]
 * E262 - встроенный комментарий должен начинаться с '#';
 * W292 – нет новый строки в конце файла.
 
-###Описание проблемы и исправление
+### Описание проблемы и исправление
 1. W0611 – указание на те импорты, которые не используются.
 В данном случае импорт sys не использовался, поэтому для решения этой проблемы, достаточно было удалить или закомментировать этот импорт.
 
@@ -114,3 +114,47 @@ def bits_to_text(bits, encoding='utf-8', errors='surrogatepass'):  # биты в
 4. W292 – нет новый строки в конце файла.
 Для исправления достаточно просто добавить пустую строку в конце файла:
 ![image](https://user-images.githubusercontent.com/56557255/214790734-837a2d08-0f56-46b8-a73f-e8663ee2e2d4.png)
+
+### Доказательство, что проблема исчезла
+```
+main.py:1:101 E501 line too long (123 > 100 characters) [pycodestyle]
+main.py:1:1 E265 block comment should start with '# ' [pycodestyle]
+main.py:2:1 E265 block comment should start with '# ' [pycodestyle]
+main.py:3:101 E501 line too long (119 > 100 characters) [pycodestyle]
+main.py:3:1 E265 block comment should start with '# ' [pycodestyle]
+main.py:6:26 E261 at least two spaces before inline comment [pycodestyle]
+main.py:9:101 E501 line too long (171 > 100 characters) [pycodestyle]
+main.py:10:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:11:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:12:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:13:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:14:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:15:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:16:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:17:101 E501 line too long (173 > 100 characters) [pycodestyle]
+main.py:19:101 E501 line too long (162 > 100 characters) [pycodestyle]
+main.py:19:1 E265 block comment should start with '# ' [pycodestyle]
+main.py:42:101 E501 line too long (130 > 100 characters) [pycodestyle]
+main.py:42:31 E261 at least two spaces before inline comment [pycodestyle]
+main.py:43:35 E261 at least two spaces before inline comment [pycodestyle]
+main.py:45:101 E501 line too long (124 > 100 characters) [pycodestyle]
+main.py:45:35 E261 at least two spaces before inline comment [pycodestyle]
+main.py:61:101 E501 line too long (128 > 100 characters) [pycodestyle]
+main.py:61:101 E261 at least two spaces before inline comment [pycodestyle]
+main.py:68:32 E261 at least two spaces before inline comment [pycodestyle]
+main.py:123:85 E261 at least two spaces before inline comment [pycodestyle]
+main.py:126:101 E501 line too long (136 > 100 characters) [pycodestyle]
+main.py:126:61 E262 inline comment should start with '# ' [pycodestyle]
+main.py:143:40 E261 at least two spaces before inline comment [pycodestyle]
+main.py:160:35 E261 at least two spaces before inline comment [pycodestyle]
+main.py:166:101 E501 line too long (118 > 100 characters) [pycodestyle]
+main.py:177:101 E501 line too long (125 > 100 characters) [pycodestyle]
+main.py:180:101 E501 line too long (107 > 100 characters) [pycodestyle]
+main.py:180:1 E265 block comment should start with '# ' [pycodestyle]
+```
+После сохранения изменений, описанных ранее, было найдено 34 ошибки, среди которых ошибки следующих типов:
+* E501 – слишком длинная строка;
+* E261 – двойной пробел перед комментарием;
+* E262 - встроенный комментарий должен начинаться с '#';
+* E265 – комментарий к блоку должен начинаться с '#'.
+По итогу, хотя ошибки E402 и E302, а также предупреждения W0611 и W292 были иправлены, появилась новая ошибка E295, схожая с ошибкой E262.
